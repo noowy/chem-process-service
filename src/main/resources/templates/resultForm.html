@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<<html xmlns="http://www.w3.org/1999/xhtml"
+       xmlns:th="http://www.thymeleaf.org"
+       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+       layout:decorate="~{layout.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>Chem Process Result</title>
+</head>
+<body>
+
+<select id="materialName" name="materialName">
+    <option th:each="material : ${materials}"
+            th:value="${material.name}"
+            th:text="${material.name}"
+            th:selected="${material.name==process.materialName}"></option>
+</select><br>
+Channel Width:<br>
+<input type="text" name="channelWidth" th:value="${process.channelWidth}"><br>
+Channel Height:<br>
+<input type="text" name="channelHeight" th:value="${process.channelHeight}"><br>
+Channel Length:<br>
+<input type="text" name="channelLength" th:value="${process.channelLength}"><br>
+Hood speed:<br>
+<input type="text" name="hoodSpeed" th:value="${process.hoodSpeed}"><br>
+Hood temperature:<br>
+<input type="text" name="hoodTemp" th:value="${process.hoodTemp}"><br>
+
+<p>Result</p><br>
+
+Productivity:<br>
+<span th:text="${process.productivity}">PRODUCTIVITY</span><span> Kg/h</span><br>
+Result temperature:<br>
+<span th:text="${process.temperature}">TEMPERATURE</span><span> C</span><br>
+Result density:<br>
+<span th:text="${process.density}">DENSITY</span><span> Pa*s</span><br>
+
+</body>
+</html>

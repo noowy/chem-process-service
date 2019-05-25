@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<<html xmlns="http://www.w3.org/1999/xhtml"
+       xmlns:th="http://www.thymeleaf.org"
+       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+       layout:decorate="~{layout.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>Chemical Process</title>
+</head>
+<body>
+
+    <form th:action="@{process/result}" method="get" th:object="${process}">
+        <select id="materialName" name="materialName">
+            <option th:each="material : ${materials}"
+                    th:value="${material.name}"
+                    th:text="${material.name}"></option>
+        </select><br>
+        Channel Width:<br>
+        <input type="text" name="channelWidth"><br>
+        Channel Height:<br>
+        <input type="text" name="channelHeight"><br>
+        Channel Length:<br>
+        <input type="text" name="channelLength"><br>
+        Hood speed:<br>
+        <input type="text" name="hoodSpeed"><br>
+        Hood temperature:<br>
+        <input type="text" name="hoodTemp"><br>
+
+
+        <button>Get final state</button>
+    </form>
+
+</body>
+</html>
