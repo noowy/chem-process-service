@@ -1,8 +1,7 @@
 package com.technolog.chemprocess;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,9 +30,19 @@ public class ChemProcessRestController
 	}
 
 	@GetMapping("/report")
-	public ResponseEntity<byte[]> getProcessReport(ChemProcess process)
+	public HttpEntity<byte[]> getProcessReport(ChemProcess process)
 	{
-		byte[] report = {0, 1};
-		return new ResponseEntity<>(report, HttpStatus.OK);
+
+		process.setProductivity(0.0f);
+		process.setDensity(0.0f);
+		process.setTemperature(0.0f);
+		byte[] report = ReportGenerator.getXlsReport(process);
+
+		HttpHeaders header = new HttpHeaders();
+		header.set(HttpHeaders.CONTENT_TYPE, "application/vnd.ms-excel");
+		header.set(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=report.xls");
+		header.setContentLength(report.length);
+
+		return new HttpEntity<>(report, header);
 	}
 }

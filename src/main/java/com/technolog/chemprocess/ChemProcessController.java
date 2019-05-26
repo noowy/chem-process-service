@@ -1,7 +1,10 @@
 package com.technolog.chemprocess;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,5 +30,22 @@ public class ChemProcessController
 		model.addAttribute("materials", materials);
 
 		return "processForm";
+	}
+
+	@GetMapping(params = "action=get_report")
+	public HttpEntity<byte[]> sendProcessReport(ChemProcess process)
+	{
+
+		process.setProductivity(0.0f);
+		process.setDensity(0.0f);
+		process.setTemperature(0.0f);
+		byte[] report = ReportGenerator.getXlsReport(process);
+
+		HttpHeaders header = new HttpHeaders();
+		header.set(HttpHeaders.CONTENT_TYPE, "application/vnd.ms-excel");
+		header.set(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=report.xls");
+		header.setContentLength(report.length);
+
+		return new HttpEntity<>(report, header);
 	}
 }
