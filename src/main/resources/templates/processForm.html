@@ -9,25 +9,38 @@
 </head>
 <body>
 
-    <form th:action="@{process/result}" method="get" th:object="${process}">
+    <form th:action="@{process}" method="get" th:object="${process}">
         <select id="materialName" name="materialName">
             <option th:each="material : ${materials}"
                     th:value="${material.name}"
-                    th:text="${material.name}"></option>
+                    th:text="${material.name}"
+                    th:selected="${material.name==process.materialName}"></option>
         </select><br>
         Channel Width:<br>
-        <input type="text" name="channelWidth"><br>
+        <input type="text" name="channelWidth" th:value="${process.channelWidth}"><br>
         Channel Height:<br>
-        <input type="text" name="channelHeight"><br>
+        <input type="text" name="channelHeight" th:value="${process.channelHeight}"><br>
         Channel Length:<br>
-        <input type="text" name="channelLength"><br>
+        <input type="text" name="channelLength" th:value="${process.channelLength}"><br>
         Hood speed:<br>
-        <input type="text" name="hoodSpeed"><br>
+        <input type="text" name="hoodSpeed" th:value="${process.hoodSpeed}"><br>
         Hood temperature:<br>
-        <input type="text" name="hoodTemp"><br>
-
+        <input type="text" name="hoodTemp" th:value="${process.hoodTemp}"><br>
 
         <button>Get final state</button>
+
+        <br>
+
+        <p>Result</p>
+
+        Productivity:<br>
+        <span th:text="${process.productivity}">PRODUCTIVITY</span><span> Kg/h</span><br>
+        Result temperature:<br>
+        <span th:text="${process.temperature}">TEMPERATURE</span><span> C</span><br>
+        Result density:<br>
+        <span th:text="${process.density}">DENSITY</span><span> Pa*s</span><br>
+
+
     </form>
 
 </body>

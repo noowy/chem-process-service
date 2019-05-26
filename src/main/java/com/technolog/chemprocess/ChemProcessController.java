@@ -19,23 +19,13 @@ public class ChemProcessController
 	private ChemMaterialRepository materialRepo;
 
 	@GetMapping
-	public String processForm(Model model)
-	{
-		List<ChemMaterial> materials = (List<ChemMaterial>) materialRepo.findAll();
-
-		model.addAttribute("materials", materials);
-
-		return "processForm";
-	}
-
-	@GetMapping("/result")
-	public String resultForm(ChemProcess process, Model model)
+	public String processForm(ChemProcess process, Model model)
 	{
 		List<ChemMaterial> materials = (List<ChemMaterial>) materialRepo.findAll();
 
 		model.addAttribute("process", process);
 		model.addAttribute("materials", materials);
 
-		return "resultForm";
+		return "processForm";
 	}
 }

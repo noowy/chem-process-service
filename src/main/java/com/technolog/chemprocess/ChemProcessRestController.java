@@ -17,16 +17,23 @@ public class ChemProcessRestController
 	private ChemMaterialRepository materialRepo;
 
 	@GetMapping("/result")
-	public ChemMaterial getFinalState(@RequestBody ChemProcess process)
+	public ChemMaterial getFinalState(ChemProcess process)
 	{
 		ChemMaterial material = materialRepo.findByName(process.getMaterialName());
 		return material;
 	}
 
 	@GetMapping("/graph")
-	public ResponseEntity<byte[]> getProcessGraph(@RequestBody ChemProcess process)
+	public ResponseEntity<byte[]> getProcessGraph(ChemProcess process)
 	{
 		byte[] graph = {0, 1};
 		return new ResponseEntity<>(graph, HttpStatus.OK);
+	}
+
+	@GetMapping("/report")
+	public ResponseEntity<byte[]> getProcessReport(ChemProcess process)
+	{
+		byte[] report = {0, 1};
+		return new ResponseEntity<>(report, HttpStatus.OK);
 	}
 }
