@@ -3,7 +3,6 @@ package com.technolog.chemprocess;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -34,7 +33,7 @@ public class ChemProcessRestController
 	{
 
 		process.setProductivity(0.0f);
-		process.setDensity(0.0f);
+		process.setConsistency(0.0f);
 		process.setTemperature(0.0f);
 		byte[] report = ReportGenerator.getXlsReport(process);
 

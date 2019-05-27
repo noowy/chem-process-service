@@ -3,12 +3,9 @@ package com.technolog.chemprocess;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
@@ -26,6 +23,8 @@ public class ChemProcessController
 	{
 		List<ChemMaterial> materials = (List<ChemMaterial>) materialRepo.findAll();
 
+		ChemProcessor.perform(process, materialRepo.findByName(process.getMaterialName()));
+
 		model.addAttribute("process", process);
 		model.addAttribute("materials", materials);
 
@@ -35,10 +34,7 @@ public class ChemProcessController
 	@GetMapping(params = "action=get_report")
 	public HttpEntity<byte[]> sendProcessReport(ChemProcess process)
 	{
-
-		process.setProductivity(0.0f);
-		process.setDensity(0.0f);
-		process.setTemperature(0.0f);
+		ChemProcessor.perform(process, materialRepo.findByName(process.getMaterialName()));
 		byte[] report = ReportGenerator.getXlsReport(process);
 
 		HttpHeaders header = new HttpHeaders();

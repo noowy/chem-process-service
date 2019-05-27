@@ -36,7 +36,7 @@ public class ChemProcess
 
 	private Float temperature;
 
-	private Float density;
+	private Float consistency;
 
 	public ChemProcess()
 	{
@@ -123,14 +123,14 @@ public class ChemProcess
 		this.temperature = temperature;
 	}
 
-	public Float getDensity()
+	public Float getConsistency()
 	{
-		return density;
+		return consistency;
 	}
 
-	public void setDensity(Float density)
+	public void setConsistency(Float consistency)
 	{
-		this.density = density;
+		this.consistency = consistency;
 	}
 
 	public Float getHoodSpeed()

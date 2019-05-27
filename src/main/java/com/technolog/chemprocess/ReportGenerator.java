@@ -1,6 +1,5 @@
 package com.technolog.chemprocess;
 
-import org.apache.poi.*;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
@@ -20,6 +19,12 @@ public class ReportGenerator
 		Cell valueCell = row.createCell(1);
 		nameCell.setCellValue("Parameters");
 		valueCell.setCellValue("Values");
+
+		row = reportSheet.createRow(rowNum++);
+		nameCell = row.createCell(0);
+		valueCell = row.createCell(1);
+		nameCell.setCellValue("Material Name");
+		valueCell.setCellValue(process.getMaterialName());
 
 		row = reportSheet.createRow(rowNum++);
 		nameCell = row.createCell(0);
@@ -61,7 +66,7 @@ public class ReportGenerator
 		nameCell = row.createCell(0);
 		valueCell = row.createCell(1);
 		nameCell.setCellValue("Density of the Product");
-		valueCell.setCellValue(process.getDensity());
+		valueCell.setCellValue(process.getConsistency());
 
 		row = reportSheet.createRow(rowNum++);
 		nameCell = row.createCell(0);
