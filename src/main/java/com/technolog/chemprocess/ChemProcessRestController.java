@@ -33,7 +33,7 @@ public class ChemProcessRestController
 	{
 
 		process.setProductivity(0.0f);
-		process.setConsistency(0.0f);
+		process.setViscosity(0.0f);
 		process.setTemperature(0.0f);
 		byte[] report = ReportGenerator.getXlsReport(process);
 

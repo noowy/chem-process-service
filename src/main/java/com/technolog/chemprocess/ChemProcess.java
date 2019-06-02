@@ -5,6 +5,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 @Entity
 public class ChemProcess
@@ -36,7 +39,11 @@ public class ChemProcess
 
 	private Float temperature;
 
-	private Float consistency;
+	private Float viscosity;
+
+	private ArrayList<HashMap<String, Double>> tempByLengthSeries;
+
+	private ArrayList<HashMap<String, Double>> viscosityByLengthSeries;
 
 	public ChemProcess()
 	{
@@ -123,14 +130,14 @@ public class ChemProcess
 		this.temperature = temperature;
 	}
 
-	public Float getConsistency()
+	public Float getViscosity()
 	{
-		return consistency;
+		return viscosity;
 	}
 
-	public void setConsistency(Float consistency)
+	public void setViscosity(Float viscosity)
 	{
-		this.consistency = consistency;
+		this.viscosity = viscosity;
 	}
 
 	public Float getHoodSpeed()
@@ -151,5 +158,21 @@ public class ChemProcess
 	public void setHoodTemp(Float hoodTemp)
 	{
 		this.hoodTemp = hoodTemp;
+	}
+
+	public ArrayList<HashMap<String, Double>> getTempByLengthSeries() {
+		return tempByLengthSeries;
+	}
+
+	public void setTempByLengthSeries(ArrayList<HashMap<String, Double>> tempByLengthSeries) {
+		this.tempByLengthSeries = tempByLengthSeries;
+	}
+
+	public ArrayList<HashMap<String, Double>> getViscosityByLengthSeries() {
+		return viscosityByLengthSeries;
+	}
+
+	public void setViscosityByLengthSeries(ArrayList<HashMap<String, Double>> viscosityByLengthSeries) {
+		this.viscosityByLengthSeries = viscosityByLengthSeries;
 	}
 }

@@ -10,36 +10,49 @@
 <body>
 
     <form th:action="@{process}" method="get" th:object="${process}">
-        <select id="materialName" name="materialName">
-            <option th:each="material : ${materials}"
-                    th:value="${material.name}"
-                    th:text="${material.name}"
-                    th:selected="${material.name==process.materialName}"></option>
-        </select><br>
-        Channel Width:<br>
-        <input type="text" name="channelWidth" th:value="${process.channelWidth}"><br>
-        Channel Height:<br>
-        <input type="text" name="channelHeight" th:value="${process.channelHeight}"><br>
-        Channel Length:<br>
-        <input type="text" name="channelLength" th:value="${process.channelLength}"><br>
-        Hood speed:<br>
-        <input type="text" name="hoodSpeed" th:value="${process.hoodSpeed}"><br>
-        Hood temperature:<br>
-        <input type="text" name="hoodTemp" th:value="${process.hoodTemp}"><br>
-
+        <table>
+            <tr>
+                <td>
+                    <select id="materialName" name="materialName">
+                        <option th:each="material : ${materials}"
+                                th:value="${material.name}"
+                                th:text="${material.name}"
+                                th:selected="${material.name==process.materialName}"></option>
+                    </select><br><br>
+                    Channel Width:<br>
+                    <input type="text" name="channelWidth" th:value="${process.channelWidth}"><br>
+                    Channel Height:<br>
+                    <input type="text" name="channelHeight" th:value="${process.channelHeight}"><br>
+                    Channel Length:<br>
+                    <input type="text" name="channelLength" th:value="${process.channelLength}"><br>
+                    Hood speed:<br>
+                    <input type="text" name="hoodSpeed" th:value="${process.hoodSpeed}"><br>
+                    Hood temperature:<br>
+                    <input type="text" name="hoodTemp" th:value="${process.hoodTemp}"><br>
+                </td>
+                <td>
+                    <img th:src="@{'data:image/jpeg;base64,'+${tempGraph}}">
+                </td>
+                <td>
+                    <img th:src="@{'data:image/jpeg;base64,'+${viscosityGraph}}">
+                </td>
+            </tr>
+        </table>
         <button>Get final state</button>
 
         <br>
+        <br>
 
-        <p>Result</p>
+        <p style="font-size:24px;">Result</p>
 
         Productivity:<br>
         <span th:text="${process.productivity}">PRODUCTIVITY</span><span> Kg/h</span><br>
-        Result temperature:<br>
+        Temperature:<br>
         <span th:text="${process.temperature}">TEMPERATURE</span><span> C</span><br>
-        Result consistency:<br>
-        <span th:text="${process.consistency}">CONSISTENCY</span><span> Pa*s</span><br>
+        Viscosity:<br>
+        <span th:text="${process.viscosity}">CONSISTENCY</span><span> Pa*s</span><br>
 
+        <br>
         <button name="action" value="get_report">Get report</button>
 
     </form>

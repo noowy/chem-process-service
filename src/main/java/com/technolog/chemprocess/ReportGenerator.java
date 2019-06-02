@@ -66,7 +66,7 @@ public class ReportGenerator
 		nameCell = row.createCell(0);
 		valueCell = row.createCell(1);
 		nameCell.setCellValue("Density of the Product");
-		valueCell.setCellValue(process.getConsistency());
+		valueCell.setCellValue(process.getViscosity());
 
 		row = reportSheet.createRow(rowNum++);
 		nameCell = row.createCell(0);

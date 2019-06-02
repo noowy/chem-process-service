@@ -8,6 +8,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.io.IOException;
+import java.util.Base64;
 import java.util.List;
 
 @Controller
@@ -23,10 +25,26 @@ public class ChemProcessController
 	{
 		List<ChemMaterial> materials = (List<ChemMaterial>) materialRepo.findAll();
 
-		ChemProcessor.perform(process, materialRepo.findByName(process.getMaterialName()));
+		ChemProcessor.perform(process, materialRepo.findByName(process.getMaterialName()), 16.0d);
 
 		model.addAttribute("process", process);
 		model.addAttribute("materials", materials);
+
+		try
+		{
+			Base64.Encoder encoder = Base64.getEncoder();
+			String tempGraphEncoded = encoder.encodeToString(GraphGenerator.getTemperatureGraphImage(process));
+			model.addAttribute("tempGraph", tempGraphEncoded);
+
+			String consistGraphEncoded = encoder.encodeToString(GraphGenerator.getViscosityGraphImage(process));
+			model.addAttribute("viscosityGraph", consistGraphEncoded);
+		}
+		catch (IOException e)
+		{
+			model.addAttribute("tempGraph", "");
+			model.addAttribute("viscosityGraph", "");
+			e.printStackTrace();
+		}
 
 		return "processForm";
 	}
@@ -34,7 +52,7 @@ public class ChemProcessController
 	@GetMapping(params = "action=get_report")
 	public HttpEntity<byte[]> sendProcessReport(ChemProcess process)
 	{
-		ChemProcessor.perform(process, materialRepo.findByName(process.getMaterialName()));
+		ChemProcessor.perform(process, materialRepo.findByName(process.getMaterialName()), 16.0d);
 		byte[] report = ReportGenerator.getXlsReport(process);
 
 		HttpHeaders header = new HttpHeaders();
