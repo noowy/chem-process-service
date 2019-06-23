@@ -6,6 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Chemical Process</title>
+    <link rel="stylesheet" th:href="@{/styles.css}" />
 </head>
 <body>
 
@@ -20,21 +21,50 @@
                                 th:selected="${material.name==process.materialName}"></option>
                     </select><br><br>
                     Channel Width:<br>
-                    <input type="text" name="channelWidth" th:value="${process.channelWidth}"><br>
+                    <input type="text" name="channelWidth" th:value="${process.channelWidth}">
+                    <span class="validationError"
+                          th:if="${#fields.hasErrors('channelWidth')}"
+                          th:errors="*{channelWidth}">Username Error</span>
+                    <br>
+
                     Channel Height:<br>
-                    <input type="text" name="channelHeight" th:value="${process.channelHeight}"><br>
+                    <input type="text" name="channelHeight" th:value="${process.channelHeight}">
+                    <span class="validationError"
+                          th:if="${#fields.hasErrors('channelHeight')}"
+                          th:errors="*{channelHeight}">Username Error</span>
+                    <br>
+
                     Channel Length:<br>
-                    <input type="text" name="channelLength" th:value="${process.channelLength}"><br>
+                    <input type="text" name="channelLength" th:value="${process.channelLength}">
+                    <span class="validationError"
+                          th:if="${#fields.hasErrors('channelLength')}"
+                          th:errors="*{channelLength}">Username Error</span>
+                    <br>
+
                     Hood speed:<br>
-                    <input type="text" name="hoodSpeed" th:value="${process.hoodSpeed}"><br>
+                    <input type="text" name="hoodSpeed" th:value="${process.hoodSpeed}">
+                    <span class="validationError"
+                          th:if="${#fields.hasErrors('hoodSpeed')}"
+                          th:errors="*{hoodSpeed}">Username Error</span>
+                    <br>
+
                     Hood temperature:<br>
-                    <input type="text" name="hoodTemp" th:value="${process.hoodTemp}"><br>
+                    <input type="text" name="hoodTemp" th:value="${process.hoodTemp}">
+                    <span class="validationError"
+                          th:if="${#fields.hasErrors('hoodTemp')}"
+                          th:errors="*{hoodTemp}">Username Error</span>
+                    <br>
+                </td>
+
+                <td>
+                    <div th:if="!${#fields.hasErrors('*')}">
+                        <img th:src="@{'data:image/jpeg;base64,'+${tempGraph}}">
+                    </div>
                 </td>
                 <td>
-                    <img th:src="@{'data:image/jpeg;base64,'+${tempGraph}}">
-                </td>
-                <td>
-                    <img th:src="@{'data:image/jpeg;base64,'+${viscosityGraph}}">
+                    <div th:if="!${#fields.hasErrors('*')}">
+                        <img th:src="@{'data:image/jpeg;base64,'+${viscosityGraph}}">
+                    </div>
                 </td>
             </tr>
         </table>
@@ -42,19 +72,23 @@
 
         <br>
         <br>
+        <div th:if="!${#fields.hasErrors('*')}">
+            <p style="font-size:24px;">Result</p>
 
-        <p style="font-size:24px;">Result</p>
+            Productivity:<br>
+            <span th:text="${process.productivity}">PRODUCTIVITY</span><span> Kg/h</span><br>
+            Temperature:<br>
+            <span th:text="${process.temperature}">TEMPERATURE</span><span> C</span><br>
+            Viscosity:<br>
+            <span th:text="${process.viscosity}">CONSISTENCY</span><span> Pa*s</span><br>
 
-        Productivity:<br>
-        <span th:text="${process.productivity}">PRODUCTIVITY</span><span> Kg/h</span><br>
-        Temperature:<br>
-        <span th:text="${process.temperature}">TEMPERATURE</span><span> C</span><br>
-        Viscosity:<br>
-        <span th:text="${process.viscosity}">CONSISTENCY</span><span> Pa*s</span><br>
+            <br>
+            <button name="action" value="get_report">Get report</button>
+        </div>
+    </form>
 
-        <br>
-        <button name="action" value="get_report">Get report</button>
-
+    <form method="POST" th:action="@{/logout}">
+        <input type="submit" value="Logout"/>
     </form>
 </body>
 </html>

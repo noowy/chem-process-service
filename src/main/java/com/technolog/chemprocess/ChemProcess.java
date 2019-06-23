@@ -4,6 +4,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,18 +23,24 @@ public class ChemProcess
 	private String materialName;
 
 	@NotNull
+	@Min(value = 0, message = "Width can not be a negative")
 	private Float channelWidth;
 
 	@NotNull
+	@Min(value = 0, message = "Height can not be a negative")
 	private Float channelHeight;
 
 	@NotNull
+	@Min(value = 0, message = "Length can not be a negative")
 	private Float channelLength;
 
 	@NotNull
+	@Min(value = 0, message = "Hood speed can not be a negative")
 	private Float hoodSpeed;
 
 	@NotNull
+	@Min(value = -300, message = "There's no such metal that won't destruct under such temperature")
+	@Max(value = 3500, message = "There's no such metal that won't melt with this temperature")
 	private Float hoodTemp;
 
 	private Float productivity;
@@ -47,7 +55,7 @@ public class ChemProcess
 
 	public ChemProcess()
 	{
-		materialName = null;
+		materialName = "";
 		channelWidth = 0.0f;
 		channelHeight = 0.0f;
 		channelLength = 0.0f;
