@@ -6,6 +6,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+import java.io.IOException;
+
 @RestController
 @RequestMapping(path="/api/process")
 public class ChemProcessRestController
@@ -15,26 +18,58 @@ public class ChemProcessRestController
 	private ChemMaterialRepository materialRepo;
 
 	@GetMapping("/result")
-	public ChemMaterial getFinalState(ChemProcess process)
+	public ChemProcess getFinalState(@Valid ChemProcess process)
 	{
 		ChemMaterial material = materialRepo.findByName(process.getMaterialName());
-		return material;
+		ChemProcessor.perform(process, material, 16.0d);
+		return process;
 	}
 
-	@GetMapping("/graph")
-	public ResponseEntity<byte[]> getProcessGraph(ChemProcess process)
+	@GetMapping(value = "/graph/temp", produces = MediaType.IMAGE_JPEG_VALUE)
+	public ResponseEntity<byte[]> getProcessTempGraph(@Valid ChemProcess process)
 	{
-		byte[] graph = {0, 1};
+		ChemMaterial material = materialRepo.findByName(process.getMaterialName());
+		ChemProcessor.perform(process, material, 16.0d);
+
+		byte[] graph;
+		try
+		{
+			graph = GraphGenerator.getTemperatureGraphImage(process);
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
+		return new ResponseEntity<>(graph, HttpStatus.OK);
+	}
+
+	@GetMapping(value = "/graph/viscosity", produces = MediaType.IMAGE_JPEG_VALUE)
+	public ResponseEntity<byte[]> getProcessViscosityGraph(@Valid ChemProcess process)
+	{
+		ChemMaterial material = materialRepo.findByName(process.getMaterialName());
+		ChemProcessor.perform(process, material, 16.0d);
+
+		byte[] graph;
+		try
+		{
+			graph = GraphGenerator.getViscosityGraphImage(process);
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
 		return new ResponseEntity<>(graph, HttpStatus.OK);
 	}
 
 	@GetMapping("/report")
-	public HttpEntity<byte[]> getProcessReport(ChemProcess process)
+	public HttpEntity<byte[]> getProcessReport(@Valid ChemProcess process)
 	{
-
-		process.setProductivity(0.0f);
-		process.setViscosity(0.0f);
-		process.setTemperature(0.0f);
+		ChemMaterial material = materialRepo.findByName(process.getMaterialName());
+		ChemProcessor.perform(process, material, 16.0d);
 		byte[] report = ReportGenerator.getXlsReport(process);
 
 		HttpHeaders header = new HttpHeaders();
